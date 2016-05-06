@@ -1,9 +1,9 @@
 var ruta=require('express').Router();
 
 
-module.exports=(function(app){
+module.exports=(function(modelo){
 
-	var usuario=require('../controller/ControladorUsuario.js')(app);
+	var usuario=require('../controller/ControladorUsuario.js')(modelo);
 	ruta.get('/',function(peticion,respuesta){
 		respuesta.send("Servidor Iniciado");
 	});

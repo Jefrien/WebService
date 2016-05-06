@@ -4,23 +4,25 @@
 	var mysql=require('mysql');
 	var bodyparser=require('body-parser');
 	var puerto=3000;
-
+	var modelo=require('./models');
 	var app=express();
 
 	
 	var conf=require('./config');
-	var pool=mysql.createPool(conf.database);
-	app.set('pool',pool);
+	
+	
 	app.use(morgan('dev'));
 	app.use(bodyparser.urlencoded({
 		extended:false
 	}));
 	
 	app.use(bodyparser.json());
-	app.use('/api/v1',require('./http')(app));
+	app.use('/api/v1',require('./http')(modelo));
 
 
-	app.listen(puerto,function(){
-		console.log("El servidor Turismo esta corriendo en el puerto "+puerto);
+	modelo.sequelize.sync().then(function(){
+		app.listen(puerto,function(){
+			console.log("Servidor iniciado en el puerto: "+puerto);
+		});
 	});
 })();
